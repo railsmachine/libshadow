@@ -1,4 +1,4 @@
-require "shadow/shadow"
+require "shadow"
 
 module Shadow
   VERSION = "0.0.1"
