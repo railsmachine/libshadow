@@ -10,7 +10,17 @@
 
 #include <shadow.h>
 #include "ruby.h"
+#ifdef RUBY19
+#include <ruby/io.h>
+#else
 #include "rubyio.h"
+#endif
+
+#ifdef RUBY19
+#define file_ptr(x) (x)->stdio_file
+#else
+#define file_ptr(x) (x)->f
+#endif
 
 static VALUE rb_mShadow;
 static VALUE rb_mPasswd;
@@ -36,6 +46,7 @@ rb_shadow_endspent(VALUE self)
 };
 
 
+#ifndef SOLARIS
 static VALUE
 rb_shadow_sgetspent(VALUE self, VALUE str)
 {
@@ -45,7 +56,7 @@ rb_shadow_sgetspent(VALUE self, VALUE str)
   if( TYPE(str) != T_STRING )
     rb_raise(rb_eException,"argument must be a string.");
 
-  entry = sgetspent(STR2CSTR(str));
+  entry = sgetspent(StringValuePtr(str));
 
   if( entry == NULL )
     return Qnil;
@@ -64,6 +75,7 @@ rb_shadow_sgetspent(VALUE self, VALUE str)
   free(entry);
   return result;
 };
+#endif
 
 static VALUE
 rb_shadow_fgetspent(VALUE self, VALUE file)
@@ -74,7 +86,7 @@ rb_shadow_fgetspent(VALUE self, VALUE file)
   if( TYPE(file) != T_FILE )
     rb_raise(rb_eTypeError,"argument must be a File.");
 
-  entry = fgetspent((RFILE(file)->fptr)->f);
+  entry = fgetspent(file_ptr(RFILE(file)->fptr));
 
   if( entry == NULL )
     return Qnil;
@@ -127,7 +139,7 @@ rb_shadow_getspnam(VALUE self, VALUE name)
   if( TYPE(name) != T_STRING )
     rb_raise(rb_eException,"argument must be a string.");
 
-  entry = getspnam(STR2CSTR(name));
+  entry = getspnam(StringValuePtr(name));
 
   if( entry == NULL )
     return Qnil;
@@ -157,11 +169,11 @@ rb_shadow_putspent(VALUE self, VALUE entry, VALUE file)
   int result;
 
   for(i=0; i<=8; i++)
-    val[i] = RSTRUCT(entry)->ptr[i];
-  cfile = RFILE(file)->fptr->f;
+    val[i] = RSTRUCT_PTR(entry)[i];
+  cfile = file_ptr(RFILE(file)->fptr);
 
-  centry.sp_namp = STR2CSTR(val[0]);
-  centry.sp_pwdp = STR2CSTR(val[1]);
+  centry.sp_namp = StringValuePtr(val[0]);
+  centry.sp_pwdp = StringValuePtr(val[1]);
   centry.sp_lstchg = FIX2INT(val[2]);
   centry.sp_min = FIX2INT(val[3]);
   centry.sp_max = FIX2INT(val[4]);
@@ -268,7 +280,9 @@ Init_shadow()
 
   rb_define_module_function(rb_mPasswd,"setspent",rb_shadow_setspent,0);
   rb_define_module_function(rb_mPasswd,"endspent",rb_shadow_endspent,0);
+#ifndef SOLARIS
   rb_define_module_function(rb_mPasswd,"sgetspent",rb_shadow_sgetspent,1);
+#endif
   rb_define_module_function(rb_mPasswd,"fgetspent",rb_shadow_fgetspent,1);
   rb_define_module_function(rb_mPasswd,"getspent",rb_shadow_getspent,0);
   rb_define_module_function(rb_mPasswd,"getspnam",rb_shadow_getspnam,1);
