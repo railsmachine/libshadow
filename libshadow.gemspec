@@ -10,8 +10,7 @@ Gem::Specification.new do |s|
   s.authors          = ["Jesse Newland", "Lee Jones"]
   s.email            = %q{ops@railsmachine.com}
 
-  s.rubygems_version = %q{1.3.7}
-  s.date             = %q{2010-11-03}
+  s.date             = %q{2014-09-02}
 
   s.require_paths = ["lib"]
   s.extensions = ["ext/shadow/extconf.rb"]
