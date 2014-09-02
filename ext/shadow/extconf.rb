@@ -6,7 +6,7 @@
 
 require 'mkmf'
 
-$CFLAGS = RUBY_VERSION =~ /1\.9/ ? '-DRUBY19' : ''
+$CFLAGS = RUBY_VERSION =~ /1\.8/ ? '-DRUBY18' : ''
 
 if( ! (ok = have_library("shadow","getspent")) )
   ok = have_func("getspent")

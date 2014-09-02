@@ -10,16 +10,16 @@
 
 #include <shadow.h>
 #include "ruby.h"
-#ifdef RUBY19
-#include <ruby/io.h>
-#else
+#ifdef RUBY18
 #include "rubyio.h"
+#else
+#include <ruby/io.h>
 #endif
 
-#ifdef RUBY19
-#define file_ptr(x) (x)->stdio_file
-#else
+#ifdef RUBY18
 #define file_ptr(x) (x)->f
+#else
+#define file_ptr(x) (x)->stdio_file
 #endif
 
 static VALUE rb_mShadow;
