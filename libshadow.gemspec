@@ -1,12 +1,9 @@
-$LOAD_PATH << File.join(File.dirname(__FILE__), "lib")
-require "libshadow"
-
 Gem::Specification.new do |s|
   s.name             = %q{libshadow}
   s.summary          = %q{shadow.h}
   s.description      = %q{Ruby C Extension for shadow access}
   s.homepage         = %q{http://github.com/railsmachine/libshadow}
-  s.version          = Shadow::VERSION
+  s.version          = '1.0.1'
   s.authors          = ["Jesse Newland", "Lee Jones"]
   s.email            = %q{ops@railsmachine.com}
 
