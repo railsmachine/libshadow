@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.summary          = %q{shadow.h}
   s.description      = %q{Ruby C Extension for shadow access}
   s.homepage         = %q{http://github.com/railsmachine/libshadow}
-  s.version          = '1.0.1'
+  s.version          = '1.0.2'
   s.authors          = ["Jesse Newland", "Lee Jones"]
   s.email            = %q{ops@railsmachine.com}
 
