@@ -261,7 +261,7 @@ rb_shadow_lock_p(VALUE self)
 
 
 void
-Init_shadow()
+Init_shadow(void)
 {
   rb_sPasswdEntry = rb_struct_define("PasswdEntry",
 				     "sp_namp","sp_pwdp","sp_lstchg",
