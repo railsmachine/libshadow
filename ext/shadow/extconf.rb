@@ -6,7 +6,7 @@
 
 require 'mkmf'
 
-$CFLAGS = RUBY_VERSION =~ /1\.8/ ? '-DRUBY18' : ''
+$CPPFLAGS = RUBY_VERSION =~ /1\.8/ ? '-DRUBY18' : ''
 
 if( ! (ok = have_library("shadow","getspent")) )
   ok = have_func("getspent")
@@ -20,7 +20,7 @@ ok &= have_func("ulckpwdf")
 
 if ok
   if ! have_func("sgetspent")
-    $CFLAGS += '-DSOLARIS'
+    $CPPFLAGS += '-DSOLARIS'
   end
   create_makefile("shadow")
 end
