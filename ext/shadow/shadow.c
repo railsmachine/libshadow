@@ -10,16 +10,16 @@
 
 #include <shadow.h>
 #include "ruby.h"
-#ifdef RUBY18
+#ifndef HAVE_RUBY_IO_H
 #include "rubyio.h"
 #else
 #include <ruby/io.h>
 #endif
 
-#ifdef RUBY18
-#define file_ptr(x) (x)->f
+#ifdef GetReadFile
+#define file_ptr(x) GetReadFile(x)
 #else
-#define file_ptr(x) (x)->stdio_file
+#define file_ptr(x) rb_io_stdio_file(x)
 #endif
 
 static VALUE rb_mShadow;
