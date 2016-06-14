@@ -35,7 +35,7 @@ rb_shadow_setspent(VALUE self)
 {
   setspent();
   return Qnil;
-};
+}
 
 
 static VALUE
@@ -43,7 +43,7 @@ rb_shadow_endspent(VALUE self)
 {
   endspent();
   return Qnil;
-};
+}
 
 
 #ifdef HAVE_SGETSPENT
@@ -74,7 +74,7 @@ rb_shadow_sgetspent(VALUE self, VALUE str)
 		      0);
   free(entry);
   return result;
-};
+}
 #endif
 
 static VALUE
@@ -103,7 +103,7 @@ rb_shadow_fgetspent(VALUE self, VALUE file)
 		      INT2FIX(entry->sp_flag),
 		      0);
   return result;
-};
+}
 
 static VALUE
 rb_shadow_getspent(VALUE self)
@@ -128,7 +128,7 @@ rb_shadow_getspent(VALUE self)
 		      INT2FIX(entry->sp_flag),
 		      0);
   return result;
-};
+}
 
 static VALUE
 rb_shadow_getspnam(VALUE self, VALUE name)
@@ -156,7 +156,7 @@ rb_shadow_getspnam(VALUE self, VALUE name)
 		      INT2FIX(entry->sp_flag),
 		      0);
   return result;
-};
+}
 
 
 static VALUE
@@ -188,7 +188,7 @@ rb_shadow_putspent(VALUE self, VALUE entry, VALUE file)
     rb_raise(rb_eStandardError,"can't change password");
 
   return Qtrue;
-};
+}
 
 
 static VALUE
@@ -200,7 +200,7 @@ rb_shadow_lckpwdf(VALUE self)
     rb_raise(rb_eFileLock,"password file was locked");
   else
     return Qtrue;
-};
+}
 
 static int in_lock;
 
@@ -219,13 +219,13 @@ rb_shadow_lock(VALUE self)
       rb_yield(Qnil);
       in_lock--;
       ulckpwdf();
-    };
+    }
     return Qtrue;
   }
   else{
     return rb_shadow_lckpwdf(self);
-  };
-};
+  }
+}
 
 
 static VALUE
@@ -233,16 +233,16 @@ rb_shadow_ulckpwdf(VALUE self)
 {
   if( in_lock ){
     rb_raise(rb_eFileLock,"you call unlock method in lock iterator.");
-  };
+  }
   ulckpwdf();
   return Qtrue;
-};
+}
 
 static VALUE
 rb_shadow_unlock(VALUE self)
 {
   return rb_shadow_ulckpwdf(self);
-};
+}
 
 static VALUE
 rb_shadow_lock_p(VALUE self)
@@ -256,8 +256,8 @@ rb_shadow_lock_p(VALUE self)
   else{
     ulckpwdf();
     return Qfalse;
-  };
-};
+  }
+}
 
 
 void
@@ -292,4 +292,4 @@ Init_shadow()
   rb_define_module_function(rb_mPasswd,"ulckpwdf",rb_shadow_ulckpwdf,0);
   rb_define_module_function(rb_mPasswd,"unlock",rb_shadow_unlock,0);
   rb_define_module_function(rb_mPasswd,"lock?",rb_shadow_lock_p,0);
-};
+}
