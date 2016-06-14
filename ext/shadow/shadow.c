@@ -46,7 +46,7 @@ rb_shadow_endspent(VALUE self)
 };
 
 
-#ifndef SOLARIS
+#ifdef HAVE_SGETSPENT
 static VALUE
 rb_shadow_sgetspent(VALUE self, VALUE str)
 {
@@ -280,7 +280,7 @@ Init_shadow()
 
   rb_define_module_function(rb_mPasswd,"setspent",rb_shadow_setspent,0);
   rb_define_module_function(rb_mPasswd,"endspent",rb_shadow_endspent,0);
-#ifndef SOLARIS
+#ifdef HAVE_SGETSPENT
   rb_define_module_function(rb_mPasswd,"sgetspent",rb_shadow_sgetspent,1);
 #endif
   rb_define_module_function(rb_mPasswd,"fgetspent",rb_shadow_fgetspent,1);

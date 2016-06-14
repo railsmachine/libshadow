@@ -19,8 +19,6 @@ ok &= have_func("lckpwdf")
 ok &= have_func("ulckpwdf")
 
 if ok
-  if ! have_func("sgetspent")
-    $CPPFLAGS += '-DSOLARIS'
-  end
+  have_func("sgetspent")
   create_makefile("shadow")
 end
